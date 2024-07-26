@@ -15,7 +15,7 @@ const FetchItems=()=>{
         const controller=new AbortController();
         const signal=controller.signal;
 
-        fetch("http://localhost:8080/items",{signal})
+        fetch("https://two-actual-backend-v06t.onrender.com/items",{signal})
         .then((res) => {
             if (!res.ok) {
                 throw new Error('Network response was not ok');
