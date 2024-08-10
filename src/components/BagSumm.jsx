@@ -9,7 +9,7 @@ const items=useSelector(state=>state.items);
     return itemIndex>=0;
    })
     
-    let  CONVENIENCE_FEE=199;
+    let  CONVENIENCE_FEE=finalItems.length>0?199:0;
     let    totalItem=bagItemsIds.length;
      let   totalMRP=0;
       let  totalDiscount=0;
