@@ -1,20 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { itemsAction } from "../store/ItemSlice";
-import { fetchStatusActions } from "../store/fetchStatusSlice";
+import {markFetchDone, markFetchingStarted,  markFetchingFinished } from "../store/fetchStatusSlice";
 
 const FetchItems=()=>{
-    const fetchStatus=useSelector(store=>store.fetchStatus);
+    const fetchStatus=useSelector((store)=>store.fetchStatus);
     // console.log(fetchStatus);
     const dispatch=useDispatch(); 
-    // console.log(fetchStatus);
+     console.log("fetchstatus is ",fetchStatus);
 
     useEffect(()=>{
-        if(fetchStatus.fetchDone)return;
-
+        console.log(fetchStatus);
+         if(fetchStatus.fetchDone)return;
+        
         const controller=new AbortController();
         const signal=controller.signal;
-
+        dispatch(markFetchingStarted());
         fetch("https://two-actual-backend-v06t.onrender.com/items",{signal})
         .then((res) => {
             if (!res.ok) {
@@ -23,15 +24,17 @@ const FetchItems=()=>{
             return res.json();
         })
         .then((item)=>{
-            dispatch(fetchStatusActions.markFetchDone());
+            dispatch(markFetchDone());
+            dispatch(markFetchingFinished());
            dispatch(itemsAction.addInitialItems(item));  
-        //  console.log("items fetched",item);
+         console.log("items fetched",item);
         })
         .catch((error) => {
             if (error.name === 'AbortError') {
                 console.log('Fetch aborted');
             } else {
                 console.error('Fetch error:', error);
+                dispatch(markFetchError());
             }
         });
 

@@ -13,14 +13,16 @@ function Bag(){
  
 
       <main>
+      <div class="full-bag-page">
       <div class="bag-page">
       {
         finalItems.map(item=> <BagItem item={item}></BagItem>) 
       }
+      </div>
     
        <BagSummary></BagSummary>
-
-      </div>
+       </div>
+      
     </main>
   
  )
